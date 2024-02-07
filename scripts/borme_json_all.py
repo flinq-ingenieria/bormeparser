@@ -57,7 +57,7 @@ def walk_borme_root(bormes_root, json_root=None):
     pdf_root = os.path.join(bormes_root, 'pdf')
     if json_root is None:
         json_root = os.path.join(bormes_root, 'json')
-
+    
     _, year_dirs, _ = next(os.walk(pdf_root))
     for year in year_dirs:
         year_dir = os.path.join(pdf_root, year)
@@ -88,7 +88,7 @@ if __name__ == '__main__':
     q = Queue()
     for i in range(THREADS):
         t = ThreadConvertJSON(q)
-        t.setDaemon(True)
+        t.daemon = True
         t.start()
 
     json_folder = 'json_' + get_git_revision_short_hash()
