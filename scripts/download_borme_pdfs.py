@@ -17,15 +17,16 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-import bormeparser
-from bormeparser.exceptions import BormeDoesntExistException
-from bormeparser.borme import BormeXML
-from bormeparser.utils import FIRST_BORME, get_borme_xml_filepath, get_borme_pdf_path
-
 import argparse
 import datetime
 import logging
 import os
+
+import bormeparser
+from bormeparser.borme import BormeXML
+from bormeparser.exceptions import BormeDoesntExistException
+from bormeparser.utils import (FIRST_BORME, get_borme_pdf_path,
+                               get_borme_xml_filepath)
 
 BORME_ROOT = bormeparser.CONFIG["borme_root"]
 
@@ -88,7 +89,12 @@ if __name__ == '__main__':
     parser.add_argument('-s', '--seccion', default=bormeparser.SECCION.A, choices=['A', 'B', 'C'], help='BORME seccion')
     parser.add_argument('-p', '--provincia', choices=bormeparser.provincia.ALL_PROVINCIAS, help='BORME provincia')
     parser.add_argument('-v', '--verbose', action='store_true', default=False, help='Verbose mode')
+    parser.add_argument('-a', '--all', action='store_true', default=False, help='Download all files (ignores --fromdate and --to)')
     args = parser.parse_args()
+
+    if args.all:
+        args.fromdate = 'init'
+        args.to = 'today'
 
     bormeparser.borme.logger.setLevel(logging.ERROR)
     if args.verbose:
