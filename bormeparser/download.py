@@ -19,10 +19,11 @@
 
 import datetime
 import os
-import requests
 import time
-from lxml import etree
 from threading import Thread
+
+import requests
+from lxml import etree
 
 from .exceptions import BormeDoesntExistException
 from .parser import parse as parse_borme
@@ -30,9 +31,9 @@ from .seccion import SECCION
 
 requests.adapters.DEFAULT_RETRIES = 3
 
+import logging
 from queue import Queue
 
-import logging
 logger = logging.getLogger(__name__)
 ch = logging.StreamHandler()
 logger.addHandler(ch)
@@ -347,7 +348,7 @@ def download_urls_multi(urls, path, threads=THREADS):
 
     for i in range(THREADS):
         t = ThreadDownloadUrl(i, q, files)
-        t.setDaemon(True)
+        t.daemon = True
         t.start()
 
     for url in urls.values():
@@ -371,7 +372,7 @@ def download_urls_multi_names(urls, path, threads=THREADS):
 
     for i in range(THREADS):
         t = ThreadDownloadUrl(i, q, files)
-        t.setDaemon(True)
+        t.daemon = True
         t.start()
 
     for filename, url in urls.items():
