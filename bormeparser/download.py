@@ -53,7 +53,7 @@ BORME_C_PDF_URL = "{protocol}://boe.es/borme/dias/{year}/{month:02d}/{day:02d}/p
 BORME_C_XML_URL = "{protocol}://boe.es/diario_borme/xml.php?id=BORME-C-{year}-{anuncio}"
 
 URL_BASE = '%s://www.boe.es'
-USE_HTTPS = True
+USE_HTTPS = False
 
 # Download threads
 THREADS = 8
@@ -300,7 +300,7 @@ def download_url(url, filename=None, try_again=0, forcedownload=False):
             logger.debug('%s already exists!' % os.path.basename(filename))
             return False
     try:
-        req = requests.get(url, stream=True)
+        req = requests.get(url, timeout=15, stream=True)
     except Exception as e:
         logger.warning('%s failed to download (%d time)!' % (url, try_again + 1))
         if try_again < 3:

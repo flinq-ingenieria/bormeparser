@@ -228,6 +228,7 @@ def regex_bold_acto(data):
           "Sociedad unipersonal. Cambio de identidad del socio único: OLSZEWSKI GRZEGORZ. Ceses/Dimisiones."
     """
     data = data.replace("  ",". ")
+    data = data.replace(". Datos registrales"," Datos registrales")
     acto_colon = None
     arg_colon = None
     nombreacto = None
