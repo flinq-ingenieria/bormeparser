@@ -125,6 +125,8 @@ class PROVINCIA:
             elif title == 'VALENCIA/VALENCIA':
                 return PROVINCIA.VALENCIA
             title = remove_accents(title).replace(' ', '_')
+            if "/" in title:
+                title = title.split("/")[0]
             return getattr(PROVINCIA, title)
         except AttributeError:
             raise ValueError('InvalidProvince: %s' % title)
