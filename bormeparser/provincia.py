@@ -19,6 +19,7 @@
 
 from bormeparser.utils import remove_accents
 
+
 class Provincia:
     def __init__(self, name, code):
         self.name = name

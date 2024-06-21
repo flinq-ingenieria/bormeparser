@@ -19,18 +19,17 @@
 
 import bormeparser
 import bormeparser.borme
-
 from bormeparser.backends.defaults import OPTIONS
 from bormeparser.utils import FIRST_BORME
+
 OPTIONS['SANITIZE_COMPANY_NAME'] = True
 
 import argparse
 import datetime
 import os
 import time
-
-from threading import Thread
 from queue import Queue
+from threading import Thread
 
 BORME_ROOT = bormeparser.CONFIG["borme_root"]
 THREADS = 6
@@ -92,7 +91,7 @@ if __name__ == '__main__':
     q = Queue()
     for i in range(THREADS):
         t = ThreadConvertJSON(q)
-        t.setDaemon(True)
+        t.daemon = True
         t.start()
 
     date = date_from
