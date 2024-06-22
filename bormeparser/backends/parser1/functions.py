@@ -76,23 +76,23 @@ def crop_file(filename_in, filename_out, rewrite=False):
     # PyPDF2 bug?
     #pdf_fp = open(filename_in, "rb")
     #reader = PdfFileReader(pdf_fp)
-    reader = PdfFileReader(open(filename_in, "rb"))
-    writer = PdfFileWriter()
-    num_pages = reader.getNumPages()
+    reader = PdfReader(open(filename_in, "rb"))
+    writer = PdfWriter()
+    num_pages = len(reader.pages)
 
     # cabecera
-    page = reader.getPage(0)
+    page = reader.pages[0]
     # (x0, x1, y0, y1)
     _crop_page(page, CROP_FIRST, False)
     writer.addPage(page)
 
     for i in range(1, num_pages - 1):
-        page = reader.getPage(i)
+        page = reader.pages[i]
         _crop_page(page, CROP_MIDDLE, False)
         writer.addPage(page)
 
     # borde final
-    page = reader.getPage(num_pages - 1)
+    page = reader.pages[num_pages - 1]
     _crop_page(page, CROP_LAST, False)
     writer.addPage(page)
 

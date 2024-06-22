@@ -300,7 +300,7 @@ def download_url(url, filename=None, try_again=0, forcedownload=False):
             logger.debug('%s already exists!' % os.path.basename(filename))
             return False
     try:
-        req = requests.get(url, timeout=15, stream=True)
+        req = requests.get(url, timeout=15)
     except Exception as e:
         logger.warning('%s failed to download (%d time)!' % (url, try_again + 1))
         if try_again < 3:

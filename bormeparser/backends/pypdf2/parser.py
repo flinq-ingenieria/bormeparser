@@ -21,7 +21,7 @@
 from bormeparser.backends.base import BormeAParserBackend
 import logging
 
-from PyPDF2 import PdfFileReader
+from pypdf import PdfReader
 
 from bormeparser.regex import regex_cargos, regex_empresa, regex_argcolon, regex_noarg, is_acto_cargo, is_acto_bold,\
                               regex_bold_acto, REGEX_ARGCOLON, REGEX_NOARG, REGEX_PDF_TEXT, REGEX_BORME_NUM, REGEX_BORME_CVE,\
@@ -73,9 +73,9 @@ class PyPDF2Parser(BormeAParserBackend):
         self.actos = []
 
         fp = open(self.filename, 'rb')
-        reader = PdfFileReader(fp)
-        for n in range(0, reader.getNumPages()):
-            content = reader.getPage(n).getContents().getData()
+        reader = PdfReader(fp)
+        for n in range(0, len(reader.pages)):
+            content = reader.pages[n].get_contents().get_data()
             logger.debug('---- BEGIN OF PAGE ----')
 
             # Python 3
@@ -211,7 +211,12 @@ class PyPDF2Parser(BormeAParserBackend):
                             continue
                     nombreacto = self._clean_data(data)[:-1]
 
+                    #CAE EN BUCLE INFINITO, EL CONTADOR LO EVITA (EJ: https://www.boe.es/borme/dias/2009/04/16/pdfs/BORME-A-2009-71-28.pdf)
+                    k = 0
                     while True:
+                        k = k + 1
+                        if k > 1000:
+                            break
                         end, nombreacto = self._parse_acto_bold(nombreacto, data)
                         if end:
                             break
